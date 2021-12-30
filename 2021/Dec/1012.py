@@ -1,21 +1,19 @@
-def dfs(board, x, y, m, n):
+def dfs(board, y, x, m, n):
     stack = []
     visited = []
     stack.append((x, y))
-    grid_x = [-1, 1]
-    grid_y = [-1, 1]
+    grid_x = [-1, 1, 0, 0]
+    grid_y = [0, 0, -1, 1]
     while stack:
         _x, _y = stack.pop()
-        print(_x, _y)
         if (_x, _y) not in visited:
-            board[_x][_y] = 0
+            board[_y][_x] = 0
             visited.append((_x, _y))
-            for g_x in grid_x:
-                for g_y in grid_y:
-                    dx = _x + g_x
-                    dy = _y + g_y
-                    if m > dx >= 0 and n > dy >= 0 and board[dx][dy]:
-                        stack.append((dx, dy))
+            for g_x, g_y in zip(grid_x, grid_y):
+                dx = _x + g_x
+                dy = _y + g_y
+                if m > dx >= 0 and n > dy >= 0 and board[dy][dx]:
+                    stack.append((dx, dy))
 
 t = int(input())
 for _ in range(t):
@@ -25,16 +23,10 @@ for _ in range(t):
         x, y = map(int, input().split())
         board[y][x] = 1
     cnt = 0
-    for k in range(n):
-        print(board[k])
-    print("-------------------")
     for i in range(n):
         for j in range(m):
             if board[i][j]:
                 dfs(board, i, j, m, n)
-                for k in range(n):
-                    print(board[k])
-                print("-------------------")
                 cnt += 1
     print(cnt)
 
